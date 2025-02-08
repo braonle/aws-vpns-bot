@@ -1,0 +1,4 @@
+python-telegram-bot[webhooks]==21.10
+pip install aioboto3==13.4.0
+pip_system_certs
+boto3
