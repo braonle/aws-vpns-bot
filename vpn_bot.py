@@ -20,16 +20,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     await update.message.reply_text("Choose action", reply_markup=reply_markup)
 
-async def button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Parses the CallbackQuery and updates the message text."""
-    query = update.callback_query
-
-    # CallbackQueries need to be answered, even if no notification to the user is needed
-    # Some clients may have trouble otherwise. See https://core.telegram.org/bots/api#callbackquery
-    await query.answer()
-
-    await query.edit_message_text(text=f"Selected option: {query.data}")
-
 async def raw(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(chat_id=update.effective_chat.id, text=update.to_dict())
 
@@ -75,6 +65,8 @@ bot = ApplicationBuilder().token(config.BOT_TOKEN).build()
 
 bot.add_handler(CommandHandler('start', start))
 bot.add_handler(CommandHandler('raw', raw))
+bot.add_handler(CommandHandler('start_vm', start_vm))
+bot.add_handler(CommandHandler('stop_vm', stop_vm))
 bot.add_handler(CallbackQueryHandler(start_vm, pattern="start"))
 bot.add_handler(CallbackQueryHandler(stop_vm, pattern="stop"))
 
